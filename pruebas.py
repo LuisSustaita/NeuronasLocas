@@ -1,4 +1,5 @@
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 from Neurona import neurona
 
 n1=neurona(2,0.5,1,3)
@@ -12,8 +13,13 @@ def TotalUi(NeuronList,ActualTime):
         result+=neuron.Ui(ActualTime)
     return result
 
+UiN1List=[]
+UiN2List=[]
+UiList=[]
 for i in range(21):
-    print("Ui: "+str(TotalUi(NeuronList,i)))
+    UiList.append(TotalUi(NeuronList,i))
+    UiN1List.append(n1.Ui(i))
+    UiN2List.append(n2.Ui(i))
     
     '''
     print("Actual Time: "+str(i))
@@ -26,3 +32,10 @@ for i in range(21):
     print("Y: "+str(n2.Ye(i)))
     print("Ui2: "+str(n2.Ui(i)))
     '''
+
+plt.figure()
+plt.plot(UiN1List,label="Ui de Neurona 1")
+plt.plot(UiN2List,label="Ui de Neurona 2")
+plt.plot(UiList,label="Ui")
+
+plt.show()
