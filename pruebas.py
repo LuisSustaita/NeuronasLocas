@@ -1,3 +1,4 @@
+#http://webs.ucm.es/info/aocg/python/modulos_cientificos/matplotlib/index.html
 import seaborn as sns
 import matplotlib.pyplot as plt
 from Neurona import neurona
