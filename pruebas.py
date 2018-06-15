@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from Neurona import neurona
 
 #Iniciamos 2 neuronas
-n1=neurona(FiringTime=2,Weigh=0.5,Delay=1,Tau=3)
-n2=neurona(FiringTime=5,Weigh=0.5,Delay=1.5,Tau=5)
+n1=neurona(FiringTime=[2,5],Weigh=0.5,Delay=1,Tau=3)
+n2=neurona(FiringTime=[5,6],Weigh=0.5,Delay=1.5,Tau=5)
 
 Threshold=0.8
 
@@ -18,7 +18,8 @@ NeuronList=[n1,n2]
 def TotalUi(NeuronList,ActualTime):
     result=0
     for neuron in NeuronList:
-        result+=neuron.Ui(ActualTime)
+        for i in range(len(neuron.FiringTime)):
+            result+=neuron.Ui(ActualTime,i)
     return result
 
 #Definimos listas para graficar los resultados de cada neurona
@@ -27,21 +28,35 @@ UiN2List=[]
 #Definimos una lista para graficar Ui(t)
 UiList=[]
 #Iniciamos el 'tiempo'
-for i in range(100):
+for i in range(21):
+'''
+    if i == 2:
+        n1.FiringTime.append(i)
+    if i == 5:
+        n1.FiringTime.append(i)
+        n2.FiringTime.append(i)
+    if i == 6:
+        n2.FiringTime.append(i)
+'''
+
+
     if TotalUi(NeuronList,i)>Threshold:
         i=0
     else:
         #Agregamos a las listas los totales de las operaciones
         UiList.append(TotalUi(NeuronList,i))
-        UiN1List.append(n1.Ui(i))
-        UiN2List.append(n2.Ui(i))
+        for j in range(len(n1.FiringTime)):
+            UiN1List.append(n1.Ui(i,j))
+        for j in range(len(n2.FiringTime)):
+            UiN2List.append(n2.Ui(i,j))
 
-        '''
+
         print("Actual Time: "+str(i))
         print("Neurona 1:")
-        print("Arg: "+str(n1.Eargs(i)))
+        print("Arg 2: "+str(n1.Eargs(i)))
         print("Y: "+str(n1.Ye(i)))
         print("Ui1: "+str(n1.Ui(i)))
+        '''
         print("Neurona 2:")
         print("Arg: "+str(n2.Eargs(i)))
         print("Y: "+str(n2.Ye(i)))
