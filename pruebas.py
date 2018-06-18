@@ -29,7 +29,7 @@ UiN2List=[]
 UiList=[]
 #Iniciamos el 'tiempo'
 for i in range(21):
-'''
+    '''
     if i == 2:
         n1.FiringTime.append(i)
     if i == 5:
@@ -37,7 +37,7 @@ for i in range(21):
         n2.FiringTime.append(i)
     if i == 6:
         n2.FiringTime.append(i)
-'''
+    '''
 
 
     if TotalUi(NeuronList,i)>Threshold:
@@ -52,16 +52,19 @@ for i in range(21):
 
 
         print("Actual Time: "+str(i))
+        '''
         print("Neurona 1:")
-        print("Arg 2: "+str(n1.Eargs(i)))
-        print("Y: "+str(n1.Ye(i)))
-        print("Ui1: "+str(n1.Ui(i)))
+        for j in range(len(n1.FiringTime)):
+            print("Arg 2: "+str(n1.Eargs(i,j)))
+            print("Y: "+str(n1.Ye(i,j)))
+            print("Ui1: "+str(n1.Ui(i,j)))
         '''
-        print("Neurona 2:")
-        print("Arg: "+str(n2.Eargs(i)))
-        print("Y: "+str(n2.Ye(i)))
-        print("Ui2: "+str(n2.Ui(i)))
-        '''
+        print("Neurona 1:")
+        for j in range(len(n2.FiringTime)):
+            print("Arg 5: "+str(n2.Eargs(i,j)))
+            print("Y: "+str(n2.Ye(i,j)))
+            print("Ui2: "+str(n2.Ui(i,j)))
+
 
 #Graficamos
 plt.figure()
