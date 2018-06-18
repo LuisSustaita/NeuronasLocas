@@ -15,3 +15,6 @@
 
 # directorios #
 /__pycache__/*
+
+# Personales #
+notas.txt
