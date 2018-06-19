@@ -5,21 +5,22 @@ import matplotlib.pyplot as plt
 #Clase Neurona
 from Neurona import neurona
 
-#Iniciamos 2 neuronas
-n1=neurona(FiringTime=[2,5],Weigh=0.5,Delay=1,Tau=3)
-n2=neurona(FiringTime=[5,6],Weigh=0.5,Delay=1.5,Tau=5)
+#Limite para disparo
+Threshold=1
 
-Threshold=0.8
+#Iniciamos 2 neuronas
+n1=neurona(FiringTime=[2,5],Weigh=0.75,Delay=1,Tau=3)
+n2=neurona(FiringTime=[5,6],Weigh=0.25,Delay=1.75,Tau=3)
+
 
 #Las agregamos a una lista de neuronas
 NeuronList=[n1,n2]
 
 #Definimos una funcion para obtener Ui(t)
-def TotalUi(NeuronList,ActualTime):
+def TotalUi(listaYs,ActualTime):
     result=0
-    for neuron in NeuronList:
-        for i in range(len(neuron.FiringTime)):
-            result+=neuron.Ui(ActualTime,i)
+    for y in listaYs:
+        result+=y
     return result
 
 #Definimos listas para graficar los resultados de cada neurona
@@ -27,24 +28,17 @@ UiN1List=[]
 UiN2List=[]
 #Definimos una lista para graficar Ui(t)
 UiList=[]
+
+listaYs=[]
 #Iniciamos el 'tiempo'
 for i in range(21):
-    '''
-    if i == 2:
-        n1.FiringTime.append(i)
-    if i == 5:
-        n1.FiringTime.append(i)
-        n2.FiringTime.append(i)
-    if i == 6:
-        n2.FiringTime.append(i)
-    '''
 
-
-    if TotalUi(NeuronList,i)>Threshold:
+    if TotalUi(listaYs,i)>Threshold:
         i=0
+        UiList.append(0)
     else:
         #Agregamos a las listas los totales de las operaciones
-        UiList.append(TotalUi(NeuronList,i))
+        UiList.append(TotalUi(listaYs,i))
         for j in range(len(n1.FiringTime)):
             UiN1List.append(n1.Ui(i,j))
         for j in range(len(n2.FiringTime)):
@@ -59,18 +53,17 @@ for i in range(21):
             print("Y: "+str(n1.Ye(i,j)))
             print("Ui1: "+str(n1.Ui(i,j)))
         '''
-        print("Neurona 1:")
-        for j in range(len(n2.FiringTime)):
-            print("Arg 5: "+str(n2.Eargs(i,j)))
-            print("Y: "+str(n2.Ye(i,j)))
-            print("Ui2: "+str(n2.Ui(i,j)))
+        #print("Neurona 1:")
+        for j in range(len(n1.FiringTime)):
+            print("Arg "+str(n1.FiringTime[j])+": "+str(n1.Eargs(i,j))+" | Y: " + str(n1.Ye(i,j)))
+            #print("Ui: "+str(n1.Ui(i,j)))
 
 
 #Graficamos
 plt.figure()
 plt.plot(UiN1List,label="Ui de Neurona 1")
-plt.plot(UiN2List,label="Ui de Neurona 2")
-plt.plot(UiList,label="Ui")
+#plt.plot(UiN2List,label="Ui de Neurona 2")
+#plt.plot(UiList,label="Ui")
 plt.title('Spikes')
 
-plt.show()
+#plt.show()
