@@ -2,68 +2,68 @@
 #Librerias para graficar
 import matplotlib.pyplot as plt
 
-#Clase Neurona
+# Clase Neurona
 from Neurona import neurona
 
-#Limite para disparo
-Threshold=1
+# Limite de disparo
+Threshold = 1
 
-#Iniciamos 2 neuronas
-n1=neurona(FiringTime=[2,5],Weigh=0.75,Delay=1,Tau=3)
-n2=neurona(FiringTime=[5,6],Weigh=0.25,Delay=1.75,Tau=3)
+# Iniciamos 2 neuronas
+n1 = neurona(FiringTime=[2, 5], Weigh=0.75, Delay=1, Tau=3)
+n2 = neurona(FiringTime=[5, 6], Weigh=0.25, Delay=1.75, Tau=3)
 
+# Las agregamos a una lista de neuronas
+NeuronList = [n1, n2]
 
-#Las agregamos a una lista de neuronas
-NeuronList=[n1,n2]
-
-#Definimos una funcion para obtener Ui(t)
-def TotalUi(listaYs,ActualTime):
-    result=0
+# Definimos una funcion para obtener Ui(t)
+def SumaY(listaYs, ActualTime):
+    result = 0
     for y in listaYs:
-        result+=y
+        result += y
     return result
 
-#Definimos listas para graficar los resultados de cada neurona
-UiN1List=[]
-UiN2List=[]
-#Definimos una lista para graficar Ui(t)
-UiList=[]
+def Ui(SumaYs,Threshold):
+    return SumaYs if SumaYs<=Threshold else 0
 
-listaYs=[]
-#Iniciamos el 'tiempo'
+#Lista para picos
+listaYs1 = []
+listaYs2 = []
+
+#Listas para graficar
+Ulist=[]
+sumaYsList=[]
+
+# Iniciamos el 'tiempo'
 for i in range(21):
+    print("Actual Time: " + str(i))
+    print("Neurona 1")
+    listaYs1 = []
+    for j in range(len(n1.FiringTime)):
+        y1 = n1.Ye(i,j)
+        #print("Arg "+str(n1.FiringTime[j])+": "+str(n1.Eargs(i,j))+" | Y: "+str(y1))
+        listaYs1.append(y1)
+    print("Suma Y: "+str(SumaY(listaYs1,i)))
 
-    if TotalUi(listaYs,i)>Threshold:
-        i=0
-        UiList.append(0)
-    else:
-        #Agregamos a las listas los totales de las operaciones
-        UiList.append(TotalUi(listaYs,i))
-        for j in range(len(n1.FiringTime)):
-            UiN1List.append(n1.Ui(i,j))
-        for j in range(len(n2.FiringTime)):
-            UiN2List.append(n2.Ui(i,j))
+    print("Neurona 2")
+    listaYs2 = []
+    for j in range(len(n2.FiringTime)):
+        y2 = n2.Ye(i,j)
+        #print("Arg "+str(n2.FiringTime[j])+": "+str(n2.Eargs(i,j))+" | Y: "+str(y2))
+        listaYs2.append(y2)
+    print("Suma Y: "+str(SumaY(listaYs2,i)))
 
+    sumays = SumaY(listaYs1, i) + SumaY(listaYs2, i)
+    print("Suma Ys: "+str(sumays))
+    sumaYsList.append(sumays)
+    print("U: "+str(Ui(sumays,Threshold)))
+    Ulist.append(Ui(sumays,Threshold))
 
-        print("Actual Time: "+str(i))
-        '''
-        print("Neurona 1:")
-        for j in range(len(n1.FiringTime)):
-            print("Arg 2: "+str(n1.Eargs(i,j)))
-            print("Y: "+str(n1.Ye(i,j)))
-            print("Ui1: "+str(n1.Ui(i,j)))
-        '''
-        #print("Neurona 1:")
-        for j in range(len(n1.FiringTime)):
-            print("Arg "+str(n1.FiringTime[j])+": "+str(n1.Eargs(i,j))+" | Y: " + str(n1.Ye(i,j)))
-            #print("Ui: "+str(n1.Ui(i,j)))
-
-
-#Graficamos
+# Graficamos
 plt.figure()
-plt.plot(UiN1List,label="Ui de Neurona 1")
-#plt.plot(UiN2List,label="Ui de Neurona 2")
-#plt.plot(UiList,label="Ui")
+plt.xlabel('Tiempo', fontsize = 20)
+plt.ylabel('Potencial de la membrana', fontsize=20)
+plt.plot(0,Threshold,'k--',label='Threshold')
+plt.plot(Ulist,label='U')
+plt.plot(sumaYsList,label='Suma Ys')
 plt.title('Spikes')
-
-#plt.show()
+plt.show()

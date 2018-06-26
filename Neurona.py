@@ -6,19 +6,13 @@ class neurona:
         self.Tau=Tau        
 
     def Eargs(self,ActualTime,i):
-        Yj=ActualTime-self.FiringTime[i]-self.Delay
-        return Yj if Yj>0 else 0
+        arg=ActualTime-self.FiringTime[i]-self.Delay
+        return arg if arg>0 else 0
 
     def Ye(self,ActualTime,i):
         import numpy as np
         op=self.Eargs(ActualTime,i)/self.Tau
-        return op*np.exp(1-op)*self.Weigh
-
-    def SumaY(listaY):
-        sy=0
-        for y in listaY:
-            sy+=y
-        return sy
-
-    def Ui(self,ActualTime,i):
-        return self.Ye(ActualTime,i)*self.Weigh
+        ex=np.exp(1-op)
+        op=op*ex
+        op=op*self.Weigh
+        return op
