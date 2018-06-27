@@ -106,11 +106,26 @@ class RetinaView(object):
 
     def update_loop(self):
         import matplotlib.pyplot as plt
+        import matplotlib.patches as patches
+        from matplotlib.collections import PatchCollection
+        listpatches=[]
         plt.ion()
         #plt.grid(True)
         #plt.grid(color='red',linestyle='-',linewidth=1)
-        #plt.axvspan(30,100,alpha=0.10,color='r')
-        #plt.axhspan(80,120,alpha=0.10,color='r')
+        #plt.axvspan(48,80,alpha=0.10,color='r')
+        #plt.axhspan(48,80,alpha=0.10,color='r')
+        # add a rectangle
+        rect = patches.Rectangle([100, 20], 20, 20, ec="none")
+        listpatches.append(rect)
+        # add a fancy box
+        fancybox = patches.FancyBboxPatch([30, 20], 20, 20,boxstyle=patches.BoxStyle("Round", pad=2))
+        listpatches.append(fancybox)
+
+        colors = np.linspace(0, 1, len(listpatches))
+        collection = PatchCollection(listpatches, cmap=plt.cm.hsv, alpha=0.3)
+        collection.set_array(np.array(colors))
+
+
         vmin, vmax = -1, 1
 
         self.img = plt.imshow(self.retina.image, vmin=vmin, vmax=vmax,
@@ -128,9 +143,9 @@ class RetinaView(object):
 
 if __name__ == '__main__':
     #Grabar
-    #retina = Retina(record='patrones/pericos/blinking.data')
+    #retina = Retina(record='blinking.data')
     #Mostrar grabacion
-    retina = RetinaRecord('blinking1.data')
+    retina = RetinaRecord('blinking5.data')
     view = RetinaView(retina)
 
 #     com=commands.getstatusoutput('python cam3d2.py')
