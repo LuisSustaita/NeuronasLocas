@@ -16,6 +16,7 @@
 # directorios #
 /__pycache__/*
 .idea/*
+.idea
 
 # Personales #
 notas.txt
