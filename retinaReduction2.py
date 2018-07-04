@@ -3,9 +3,12 @@ Vista del DVS con filtro de ruido
 Modificar en el main para:
 mostrar un archivo grabado (RetinaRecord)
 grabar un archivo nuevo y mostrarlo en pantalla (Retina)
+
+SE MODIFICO PARA REDIMENSIONAR LA VISTA DEL DVS DE UN ARCHIVO YA GRABADO SIN REDIMENSIONAR
+EN EL MAIN DEBE PONER EL NOMBRE DEL ARCHIVO QUE SE VA A LEER, SE CREARA UN NUEVO ARCHIVO CON LA REDUCCION
 '''
 
-import serial
+import serialA LEE
 import time
 import thread
 import numpy as np
@@ -49,15 +52,16 @@ class Retina(object):
             dif = t -float(self.Tmap[byte0,byte1])
 
             if (dif<0.8):
-                self.image[math.ceil(byte1/4), math.ceil(byte0/4)] += 1 if sign else -1
+                self.image[byte1,byte0] += 1 if sign else -1
                 if self.record is not None:
                     self.record.write('%d %d %d %.6f\n' % (byte0, byte1, sign, t))
 
             self.Tmap[byte0,byte1]= t
 
-class RetinaRecord(object):#Borrar la reduccion luego de actualizar los patrones de prueba
+class RetinaRecord(object):
     def __init__(self, filename):
         self.data = open(filename)
+        self.record = open('blinkingRedu.data','w')
         self.image = np.zeros((128, 128), dtype=float)
         thread.start_new_thread(self.update_loop, ())
 
@@ -73,6 +77,9 @@ class RetinaRecord(object):#Borrar la reduccion luego de actualizar los patrones
             x = math.ceil(int(x)/4)
             sign = int(sign)
             t = float(t)
+
+            self.record.write('%d %d %d %.6f\n' % (x, y, sign, t))
+
             if offset is None:
                 offset = time.time() - t
 
@@ -114,7 +121,7 @@ if __name__ == '__main__':
     #Grabar
     #retina = Retina(record='blinking.data')
     #Mostrar grabacion
-    retina = RetinaRecord('blinking.data')
+    retina = RetinaRecord('blinking7.data')
     view = RetinaView(retina)
 
     while True:

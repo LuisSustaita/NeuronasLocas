@@ -55,7 +55,7 @@ class Retina(object):
 
             self.Tmap[byte0,byte1]= t
 
-class RetinaRecord(object):#Borrar la reduccion luego de actualizar los patrones de prueba
+class RetinaRecord(object):
     def __init__(self, filename):
         self.data = open(filename)
         self.image = np.zeros((128, 128), dtype=float)
@@ -69,8 +69,8 @@ class RetinaRecord(object):#Borrar la reduccion luego de actualizar los patrones
 
         for line in self.data.readlines():
             x, y, sign, t = line.strip().split()
-            y = math.ceil(int(y)/4)
-            x = math.ceil(int(x)/4)
+            y = int(y)
+            x = int(x)
             sign = int(sign)
             t = float(t)
             if offset is None:
@@ -112,9 +112,9 @@ class RetinaView(object):
 
 if __name__ == '__main__':
     #Grabar
-    #retina = Retina(record='blinking.data')
+    retina = Retina(record='blinking.data')
     #Mostrar grabacion
-    retina = RetinaRecord('blinking5.data')
+    #retina = RetinaRecord('blinking5.data')
     view = RetinaView(retina)
 
     while True:

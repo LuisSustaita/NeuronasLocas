@@ -9,8 +9,8 @@ import serial
 import time
 import thread
 import numpy as np
+import commands
 import sys
-import math
 
 class Retina(object):
     def __init__(self, port='/dev/ttyUSB0', record=None):
@@ -19,7 +19,6 @@ class Retina(object):
         self.serial.write("E+\nZ+\n")
         self.image = np.zeros((128, 128), dtype=float)
         self.Tmap = np.zeros((128, 128), dtype=float)
-        self.start_point = time.time()
 
         if record is not None:
             self.record = open(record, 'w')
@@ -32,6 +31,10 @@ class Retina(object):
 
     def update_loop(self):
         cont = 0
+        actualE = 0
+        anteE = 0
+        actualD = 0.0
+        anteD=0.0
         i=0
 
         while True:
@@ -49,9 +52,9 @@ class Retina(object):
             dif = t -float(self.Tmap[byte0,byte1])
 
             if (dif<0.8):
-                self.image[math.ceil(byte1/4), math.ceil(byte0/4)] += 1 if sign else -1
+                self.image[byte1, byte0] += 1 if sign else -1
                 if self.record is not None:
-                    self.record.write('%d %d %d %.6f\n' % (byte0, byte1, sign, t))
+                    self.record.write('%d %d %d %.6f\n' % (byte0, byte1, sign, cont))
 
             self.Tmap[byte0,byte1]= t
 
@@ -106,17 +109,26 @@ class RetinaView(object):
             self.img.set_data(self.retina.image)
             self.retina.clear_image()
             plt.draw()
-            time.sleep(0.01)
+            time.sleep(0.02)
 
 
 
 if __name__ == '__main__':
     #Grabar
-    retina = Retina(record='blinking.data')
+    #retina = Retina(record='patrones/pericos/blinking.data')
     #Mostrar grabacion
-    #retina = RetinaRecord('blinking5.data')
+    retina = RetinaRecord('blinking.data')
     view = RetinaView(retina)
 
+#     com=commands.getstatusoutput('python cam3d2.py')
+#
+#     thread.start_new_thread(com, ())
+#
+#     if (com[0]==0):
+#         print com[1]
+#     else:
+#         print "Error: "+ str(com[0])
+#         print "Descripcion: " + com[1]
     while True:
         time.sleep(1)
         if sys.stdin.read(1)=='q':

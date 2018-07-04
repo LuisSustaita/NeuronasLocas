@@ -47,20 +47,7 @@ class Retina(object):
             byte1 = ord(self.serial.read())
             sign = byte1 >= 0x7F
             byte1 = byte1 & 0x7F   # strip the top byte
-            t = float(time.strftime('%S'))+time.clock()
-
-            actualE = int(t) #Parte entera
-            actualD = abs(t) - abs(int(t)) #Parte decimal
-
-            if (actualE == anteE):
-                dif = actualD - anteD
-                cont+=dif
-                anteD=actualD
-                anteE=anteE
-            else:
-                cont+=1
-                anteD=actualD
-                anteE=actualE
+            t = time.time() - self.start_point
 
             dif = t -float(self.Tmap[byte0,byte1])
 
@@ -130,7 +117,7 @@ if __name__ == '__main__':
     #Grabar
     #retina = Retina(record='patrones/pericos/blinking.data')
     #Mostrar grabacion
-    retina = RetinaRecord('blinking_1.data')
+    retina = RetinaRecord('blinking1.data')
     view = RetinaView(retina)
 
 #     com=commands.getstatusoutput('python cam3d2.py')
