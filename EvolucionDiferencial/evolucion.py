@@ -185,7 +185,7 @@ Patron10=[
 
 #Llenar arreglo de poblacion
 PoblacionList=[]
-PoblacionList.append(individuo(TargetTime=EquisTargetTime, WeightInf=WeightInf,WeightSup=WeightSup,DelayInf=DelayInf,DelaySup=DelaySup,Patrones=Patron1))
+PoblacionList.append(individuo(TargetTime=EquisTargetTime,WeightInf=WeightInf,WeightSup=WeightSup,DelayInf=DelayInf,DelaySup=DelaySup,Patrones=Patron1))
 PoblacionList.append(individuo(TargetTime=EquisTargetTime,WeightInf=WeightInf,WeightSup=WeightSup,DelayInf=DelayInf,DelaySup=DelaySup,Patrones=Patron2))
 PoblacionList.append(individuo(TargetTime=EquisTargetTime,WeightInf=WeightInf,WeightSup=WeightSup,DelayInf=DelayInf,DelaySup=DelaySup,Patrones=Patron3))
 PoblacionList.append(individuo(TargetTime=EquisTargetTime,WeightInf=WeightInf,WeightSup=WeightSup,DelayInf=DelayInf,DelaySup=DelaySup,Patrones=Patron4))
@@ -209,7 +209,12 @@ for i in range(1000):
         R3=PoblacionList[random.randint(0, len(PoblacionList)-1)]
 
         #Se aplican operaciones al individuo y se agrega a la poblacion
-        NewPoblacionList.append(R1.Elemento.__add__(R2.Elemento.__sub__(R3.Elemento).__mul__(F)))
+        #TEMPORAL: SE AGREGA LA LISTA DE PATRONES DE LA POSICION EN LA QUE ESTÁ
+        NewPoblacionList.append(individuo(
+            TargetTime=EquisTargetTime,
+            Elemento=(R1.__add__(R2.__sub__(R3).__mul__(F))).Elemento,
+            Patrones=PoblacionList[j].Patrones))
+
 
     #Paso 2: Cruza
     for j in range(poblacion):
@@ -218,12 +223,16 @@ for i in range(1000):
             #Para cada componente del arreglo
             if random.random()<=Cr:
                 #Si el aleatorio es menor que Cr tomamos el componente del arreglo de la nueva poblacion
-                VectorTemp.append(NewPoblacionList[j])
+                VectorTemp.append(NewPoblacionList[j].Elemento[k])
             else:
                 #Si no es menor tomamos el componente del arreglo de la poblacion original
                 VectorTemp.append(PoblacionList[j].Elemento[k])
 
-        individuoCruzado=individuo(Elemento=VectorTemp)
+        # ¿QUE PATRONES LE DOY AL NUEVO INDIVIDUO?
+        #TEMPORAL: LE PASAMOS LOS PATRONES DE LA POSICION EN LA QUE ESTÁ
+        individuoCruzado = individuo(TargetTime=EquisTargetTime,
+                                     Elemento=VectorTemp,
+                                     Patrones=PoblacionList[j].Patrones)
 
         #Paso 3: Reemplazo
         if individuoCruzado.__lt__(PoblacionList[j]):
@@ -232,8 +241,7 @@ for i in range(1000):
         else:
             # Si no es mejor se queda el original
             pass
-
-
+    print(PoblacionList[0].__str__())
 
 
 

@@ -2,6 +2,11 @@ import random
 import math
 class individuo:
     def __init__(self, **kwargs):
+        if "TargetTime" in kwargs:
+            self.TargetTime=kwargs["TargetTime"]
+        else:
+            self.TargetTime=1
+
         if "Patrones" in kwargs:
             self.Patrones = kwargs["Patrones"][:]
             self.Fitness = self.evaluar(self.Patrones)
@@ -15,10 +20,6 @@ class individuo:
             self.Elemento = [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"]),
                              random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])]
 
-        if "TargetTime" in kwargs:
-            self.TargetTime=kwargs["TargetTime"]
-        else:
-            self.TargetTime=1
 
     def evaluar(self,PatternsInTrainingSet):
         result=0
