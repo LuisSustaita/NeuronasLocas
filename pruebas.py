@@ -4,16 +4,30 @@ import matplotlib.pyplot as plt
 
 # Clase Neurona
 from Neurona import neurona
+# Evolucion Diferencial
+from evolucion import Evolucion
+
+WeightInf=-100
+WeightSup=100
+DelayInf=0.1
+DelaySup=16
+C1TargetTime=20
+C2TargetTime=10
+
+ArgsED={"Poblacion":30,"Iteraciones":500,"CapaEntrada":2,"CapaOculta":5,"CapaSalida":1,
+        "WeightInf":WeightInf,"WeightSup":WeightSup,"DelayInf":DelayInf,"DelaySup":DelaySup}
 
 # Limite de disparo
 Threshold = 1
 
 # Iniciamos 2 neuronas
-n1 = neurona(FiringTime=[2, 5], Weigh=0.75, Delay=1, Tau=3)
-n2 = neurona(FiringTime=[5, 6], Weigh=0.25, Delay=1.75, Tau=3)
+n1 = neurona(FiringTime=[0, 0], Weigh=0.75, Delay=1, Tau=3)
+n2 = neurona(FiringTime=[0, 6], Weigh=0.25, Delay=1.75, Tau=3)
+n3 = neurona(FiringTime=[6, 0], Weigh=0.75, Delay=1, Tau=3)
+n4 = neurona(FiringTime=[6, 6], Weigh=0.25, Delay=1.75, Tau=3)
 
 # Las agregamos a una lista de neuronas
-NeuronList = [n1, n2]
+NeuronList = [n1, n2, n3, n4]
 
 # Definimos una funcion para obtener Ui(t)
 def SumaY(listaYs, ActualTime):
@@ -34,7 +48,7 @@ Ulist=[]
 sumaYsList=[]
 
 # Iniciamos el 'tiempo'
-for i in range(21):
+for i in range(24):
     print("Actual Time: " + str(i))
     print("Neurona 1")
     listaYs1 = []

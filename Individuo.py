@@ -2,31 +2,24 @@ import random
 import math
 class individuo:
     def __init__(self, **kwargs):
+        self.Fitness=1111
         if "TargetTime" in kwargs:
             self.TargetTime=kwargs["TargetTime"]
+            self.ActualTime=kwargs["ActualTime"]
         else:
-            self.TargetTime=1
+            self.TargetTime=111
+            self.ActualTime=111
 
-        if "Patrones" in kwargs:
-            self.Patrones = kwargs["Patrones"][:]
-            self.Fitness = self.evaluar(self.Patrones)
+        if "Dimension" in kwargs:
+            self.Dimension=kwargs["Dimension"]
         else:
-            self.Patrones = None
-            self.Fitness=None
+            self.Dimension=2
 
         if "Elemento" in kwargs:
             self.Elemento = kwargs["Elemento"][:]
         else:
-            self.Elemento = [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"]),
-                             random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])]
-
-
-    def evaluar(self,PatternsInTrainingSet):
-        result=0
-        for pattern in PatternsInTrainingSet:
-            result+=math.pow(pattern[3]-self.TargetTime,2)
-        return result
-
+            self.Elemento = [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"]) for x in range(self.Dimension/2)]
+            self.Elemento.append(random.uniform(kwargs["DelayInf"], kwargs["DelaySup"]) for x in range(self.Dimension/2))
 
     def __add__(self, otro):
         val=[]
@@ -63,4 +56,4 @@ class individuo:
         return self.Fitness<otro.Fitness
 
     def __str__(self):
-        return "Fitness: {} Individuo (Weight,Delay): {}".format(self.Fitness, self.Elemento)
+        return "Fitness: {} Individuo: {}".format(self.Fitness, self.Elemento)
