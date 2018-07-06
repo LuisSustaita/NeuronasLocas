@@ -20,11 +20,11 @@ ArgsED={"Poblacion":30,"Iteraciones":500,"CapaEntrada":2,"CapaOculta":5,"CapaSal
 # Limite de disparo
 Threshold = 1
 
-# Iniciamos 2 neuronas
-n1 = neurona(FiringTime=[0, 0], Weigh=0.75, Delay=1, Tau=3)
-n2 = neurona(FiringTime=[0, 6], Weigh=0.25, Delay=1.75, Tau=3)
-n3 = neurona(FiringTime=[6, 0], Weigh=0.75, Delay=1, Tau=3)
-n4 = neurona(FiringTime=[6, 6], Weigh=0.25, Delay=1.75, Tau=3)
+# Iniciamos neuronas (sin peso y delay porque esos despues se calculan)
+n1 = neurona(FiringTime=[0, 0], Tau=3)
+n2 = neurona(FiringTime=[0, 6], Tau=3)
+n3 = neurona(FiringTime=[6, 0], Tau=3)
+n4 = neurona(FiringTime=[6, 6], Tau=3)
 
 # Las agregamos a una lista de neuronas
 NeuronList = [n1, n2, n3, n4]
