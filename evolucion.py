@@ -1,20 +1,24 @@
 from Individuo import individuo
+from RedNeuronalPulsante import Pulsante
 import random
 
 class Evolucion:
     def __init__(self,**kwargs):
-        self.Dimension=kwargs["CapaEntrada"]*(kwargs["CapaEntrada"]*kwargs["CapaOculta"]+kwargs["CapaOculta"])
-        self.Llamadas=kwargs["Poblacion"]*kwargs["Iteraciones"]
-        self.Poblacion=kwargs["Poblacion"]
-        self.TargetTime=kwargs["TargetTime"]
-        self.WeightInf=kwargs["WeightInf"]
-        self.WeightSup=kwargs["WeightSup"]
-        self.DelayInf=kwargs["DelayInf"]
-        self.DelaySup=kwargs["DelaySup"]
-        self.F=0.9
-        self.Cr=0.8
+        self.Poblacion = kwargs["Poblacion"]
+        self.F = 0.9
+        self.Cr = 0.8
+        self.Llamadas = kwargs["Iteraciones"]
+        self.WeightInf = kwargs["WeightInf"]
+        self.WeightSup = kwargs["WeightSup"]
+        self.DelayInf = kwargs["DelayInf"]
+        self.DelaySup = kwargs["DelaySup"]
+        self.Patrones = kwargs["Patrones"]
+        self.TiempoFin = kwargs["TiempoFin"]
+        self.RedPulsante=Pulsante(kwargs["CapaOculta"],kwargs["Threshold"],
+            kwargs["Tau"],kwargs["TiempoInicio"],self.TiempoFin)
+        self.PoblacionList = []
+
         # Llenar arreglo de poblacion
-        PoblacionList = []
         for i in range(self.Poblacion):
             PoblacionList.append(individuo(TargetTime=self.TargetTime,
                                            WeightInf=self.WeightInf, WeightSup=self.WeightSup,
