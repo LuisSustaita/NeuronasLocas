@@ -1,18 +1,31 @@
+import numpy as np
 class neurona:
-    def __init__(self,FiringTime,Weigh,Delay,Tau):
-        self.FiringTime=FiringTime[:]
-        self.Weigh=Weigh
-        self.Delay=Delay
-        self.Tau=Tau        
+    def __init__(self,Threshold,Tau):
+        #Spike
+        self.FiringTime=None
+        self.Tau=Tau
+        #Umbral-Limite
+        self.Threshold=Threshold
+        #Matriz de pesos - synapses
+        self.WeightAndDelay={"Weight":[],"Delay":[]}
 
-    def Eargs(self,ActualTime,i):
-        arg=ActualTime-self.FiringTime[i]-self.Delay
-        return arg if arg>0 else 0
+    #Estado de la neurona
+    def Ye(self,ActualTime,FiringTime,Delay):
+        FiringTime = -1 if FiringTime is None else ActualTime-FiringTime-Delay
+        if FiringTime >0:
+            return (FiringTime/self.Tau)*np.exp(1-FiringTime/self.Tau)
+        else:
+            return 0
 
-    def Ye(self,ActualTime,i):
-        import numpy as np
-        op=self.Eargs(ActualTime,i)/self.Tau
-        ex=np.exp(1-op)
-        op=op*ex
-        op=op*self.Weigh
-        return op
+    #Potencial de la membrana
+    def Simular(self,ActualTime,FiringTimes):
+        x = 0
+        if self.FiringTime is None:
+            for i in range(len(self.WeightAndDelay)):
+                x += self.WeightAndDelay[i][0] * self.Ye(ActualTime,FiringTimes[i],self.WeightAndDelay[i][1])
+            if x >= self.Threshold:
+                self.FiringTime=ActualTime
+
+    #Resetear neurona
+    def ResetNeuron(self):
+        self.FiringTime=None

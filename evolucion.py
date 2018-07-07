@@ -13,16 +13,15 @@ class Evolucion:
         self.DelaySup=kwargs["DelaySup"]
         self.F=0.9
         self.Cr=0.8
-
+        # Llenar arreglo de poblacion
+        PoblacionList = []
+        for i in range(self.Poblacion):
+            PoblacionList.append(individuo(TargetTime=self.TargetTime,
+                                           WeightInf=self.WeightInf, WeightSup=self.WeightSup,
+                                           DelayInf=self.DelayInf, DelaySup=self.DelaySup,
+                                           Dimension=self.Dimension))
 
     def init(self,TiempoActual):
-        #Llenar arreglo de poblacion
-        PoblacionList=[]
-        for i in range():
-            PoblacionList.append(individuo(TargetTime=self.TargetTime,
-                                   WeightInf=self.WeightInf,WeightSup=self.WeightSup,
-                                   DelayInf=self.DelayInf,DelaySup=self.DelaySup,
-                                   Dimension=self.Dimension))
 
         #Llamadas a funcion
         for i in range(self.Llamadas):
