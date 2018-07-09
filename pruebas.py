@@ -6,78 +6,67 @@ import matplotlib.pyplot as plt
 from Neurona import neurona
 # Evolucion Diferencial
 from evolucion import Evolucion
+# Red neuronal
+from RedNeuronalPulsante import Pulsante
 
-WeightInf=-100
-WeightSup=100
-DelayInf=0.1
-DelaySup=16
-C1TargetTime=20
-C2TargetTime=10
 
-ArgsED={"Poblacion":30,"Iteraciones":500,"CapaEntrada":2,"CapaOculta":5,"CapaSalida":1,
-        "WeightInf":WeightInf,"WeightSup":WeightSup,"DelayInf":DelayInf,"DelaySup":DelaySup}
+patron11 = [0, 0]
+patron12 = [6, 6]
+c1 = [patron11, patron12]
+patron21 = [0, 6]
+patron22 = [6, 0]
+c2 = [patron21, patron22]
 
-# Limite de disparo
+Patrones = {20: c1, 10: c2}
+
+CapaEntrada = 2
+CapaOculta = 5
+CapaSalida = 1
+
+WeightInf = -100
+WeightSup = 100
+DelayInf = 0.1
+DelaySup = 16
+
+Dimension = 2*(CapaEntrada*CapaOculta+CapaSalida)
+Poblacion = 30
+Iteraciones = 500
+TiempoInicio = 0
+TiempoFin = 24
+F = 0.9
+Cr = 0.8
 Threshold = 1
+Tau = 7
 
-# Iniciamos neuronas (sin peso y delay porque esos despues se calculan)
-n1 = neurona(FiringTime=[0, 0], Tau=3)
-n2 = neurona(FiringTime=[0, 6], Tau=3)
-n3 = neurona(FiringTime=[6, 0], Tau=3)
-n4 = neurona(FiringTime=[6, 6], Tau=3)
+de = Evolucion(Poblacion=Poblacion, Dimension=Dimension,
+               F=F, Cr=Cr,
+               Iteraciones=Iteraciones,
+               WeightInf=WeightInf, WeightSup=WeightSup,
+               DelayInf=DelayInf, DelaySup=DelaySup,
+               Patrones=Patrones,
+               CapaEntrada=CapaEntrada, CapaOculta=CapaOculta,
+               Threshold=Threshold, Tau=Tau,
+               TiempoInicio=TiempoInicio, TiempoFin=TiempoFin)
 
-# Las agregamos a una lista de neuronas
-NeuronList = [n1, n2, n3, n4]
+evolucion = de.evolucionar()
 
-# Definimos una funcion para obtener Ui(t)
-def SumaY(listaYs, ActualTime):
-    result = 0
-    for y in listaYs:
-        result += y
-    return result
+print("Solucion: {}".format(evolucion.Elemento))
+print("Fitness: {}".format(evolucion.Fitness))
 
-def Ui(SumaYs,Threshold):
-    return SumaYs if SumaYs<=Threshold else 0
+snn = de.getSNN()
 
-#Lista para picos
-listaYs1 = []
-listaYs2 = []
+for key in Patrones:
+    spikes = Patrones[key]
+    for p in spikes:
+        FiringTime = snn.Simular(p)
+        print("Patron: {} Clase: {} Prediccion (Firing Time): {}".format(p, key, FiringTime))
+    snn.ResetPulsante()
 
-#Listas para graficar
-Ulist=[]
-sumaYsList=[]
 
-# Iniciamos el 'tiempo'
-for i in range(24):
-    print("Actual Time: " + str(i))
-    print("Neurona 1")
-    listaYs1 = []
-    for j in range(len(n1.FiringTime)):
-        y1 = n1.Ye(i,j)
-        #print("Arg "+str(n1.FiringTime[j])+": "+str(n1.Eargs(i,j))+" | Y: "+str(y1))
-        listaYs1.append(y1)
-    print("Suma Y: "+str(SumaY(listaYs1,i)))
 
-    print("Neurona 2")
-    listaYs2 = []
-    for j in range(len(n2.FiringTime)):
-        y2 = n2.Ye(i,j)
-        #print("Arg "+str(n2.FiringTime[j])+": "+str(n2.Eargs(i,j))+" | Y: "+str(y2))
-        listaYs2.append(y2)
-    print("Suma Y: "+str(SumaY(listaYs2,i)))
 
-    sumays = SumaY(listaYs1, i) + SumaY(listaYs2, i)
-    print("Suma Ys: "+str(sumays))
-    sumaYsList.append(sumays)
-    print("U: "+str(Ui(sumays,Threshold)))
-    Ulist.append(Ui(sumays,Threshold))
 
-# Graficamos
-plt.figure()
-plt.xlabel('Tiempo', fontsize = 20)
-plt.ylabel('Potencial de la membrana', fontsize=20)
-plt.plot(0,Threshold,'k--',label='Threshold')
-plt.plot(Ulist,label='U')
-plt.plot(sumaYsList,label='Suma Ys')
-plt.title('Spikes')
-plt.show()
+
+
+
+

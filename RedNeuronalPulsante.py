@@ -1,5 +1,6 @@
 from Neurona import neurona
 
+
 class Pulsante:
     def __init__(self,CapaOculta,Threshold,Tau,TiempoInicio,TiempoFin):
         self.TiempoInicio=TiempoInicio
