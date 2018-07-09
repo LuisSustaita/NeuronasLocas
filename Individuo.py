@@ -3,6 +3,10 @@ import random
 
 class individuo:
     def __init__(self, **kwargs):
+        self.WeightInf=kwargs["WeightInf"]
+        self.WeightSup=kwargs["WeightSup"]
+        self.DelayInf=kwargs["DelayInf"]
+        self.DelaySup=kwargs["DelaySup"]
         if "Fitness" in kwargs:
             self.Fitness = kwargs["Fitness"]
         else:
@@ -16,49 +20,139 @@ class individuo:
                           "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
                                    for x in range(kwargs["Dimension"]/2)]}
 
-    #
-    #Agregar regreso toroidal
-    #
     def __add__(self, otro):
-        val={}
+        val={"Weight":[],"Delay":[]}
+
+        #Si es instancia de Individuo
         if isinstance(otro, individuo):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]+otro.Elemento[key:i])
+            #Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r = self.Elemento["Weight"][i] + otro.Elemento["Weight"][i]
+                while(r<self.WeightInf):
+                    r=r+self.WeightSup-self.WeightInf
+                while(r>self.WeightSup):
+                    r=r-self.WeightSup+self.WeightInf
+                val["Weight"].append(r)
+
+            # Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r = self.Elemento["Delay"][i] + otro.Elemento["Delay"][i]
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
+        #Si es instancia de Flotante o Entero
         elif isinstance(otro, float) or isinstance(otro, int):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]+otro)
+            # Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r=self.Elemento["Weight"][i] + otro
+                while (r < self.WeightInf):
+                    r = r + self.WeightSup - self.WeightInf
+                while (r > self.WeightSup):
+                    r = r - self.WeightSup + self.WeightInf
+                val["Weight"].append(r)
+
+            #Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r=self.Elemento["Delay"][i] + otro
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
         return individuo(Elemento=val)
 
-    #
-    # Agregar regreso toroidal
-    #
     def __sub__(self, otro):
-        val={}
+        val = {"Weight": [], "Delay": []}
+
+        # Si es instancia de Individuo
         if isinstance(otro, individuo):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]-otro.Elemento[key:i])
+            # Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r = self.Elemento["Weight"][i] - otro.Elemento["Weight"][i]
+                while (r < self.WeightInf):
+                    r = r + self.WeightSup - self.WeightInf
+                while (r > self.WeightSup):
+                    r = r - self.WeightSup + self.WeightInf
+                val["Weight"].append(r)
+
+            # Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r = self.Elemento["Delay"][i] - otro.Elemento["Delay"][i]
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
+        # Si es instancia de Flotante o Entero
         elif isinstance(otro, float) or isinstance(otro, int):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]-otro)
+            # Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r = self.Elemento["Weight"][i] - otro
+                while (r < self.WeightInf):
+                    r = r + self.WeightSup - self.WeightInf
+                while (r > self.WeightSup):
+                    r = r - self.WeightSup + self.WeightInf
+                val["Weight"].append(r)
+
+            # Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r = self.Elemento["Delay"][i] - otro
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
         return individuo(Elemento=val)
 
-    #
-    # Agregar regreso toroidal
-    #
     def __mul__(self, otro):
-        val={}
+        val = {"Weight": [], "Delay": []}
+
+        # Si es instancia de Individuo
         if isinstance(otro, individuo):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]*otro.Elemento[key:i])
+            # Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r = self.Elemento["Weight"][i] * otro.Elemento["Weight"][i]
+                while (r < self.WeightInf):
+                    r = r + self.WeightSup - self.WeightInf
+                while (r > self.WeightSup):
+                    r = r - self.WeightSup + self.WeightInf
+                val["Weight"].append(r)
+
+            # Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r = self.Elemento["Delay"][i] * otro.Elemento["Delay"][i]
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
+        # Si es instancia de Flotante o Entero
         elif isinstance(otro, float) or isinstance(otro, int):
-            for key in individuo.Elemento:
-                for i in range(individuo.Elemento[key]):
-                    val.__setitem__(key, self.Elemento[key:i]*otro)
+            # Regreso toroidal para Weight
+            for i in range(len(self.Elemento["Weight"])):
+                r = self.Elemento["Weight"][i] * otro
+                while (r < self.WeightInf):
+                    r = r + self.WeightSup - self.WeightInf
+                while (r > self.WeightSup):
+                    r = r - self.WeightSup + self.WeightInf
+                val["Weight"].append(r)
+
+            # Regreso toroidal para Delay
+            for i in range(len(self.Elemento["Delay"])):
+                r = self.Elemento["Delay"][i] * otro
+                while (r < self.DelayInf):
+                    r = r + self.DelaySup - self.DelayInf
+                while (r > self.DelaySup):
+                    r = r - self.DelaySup + self.DelayInf
+                val["Delay"].append(r)
+
         return individuo(Elemento=val)
 
     def __lt__(self, otro):
