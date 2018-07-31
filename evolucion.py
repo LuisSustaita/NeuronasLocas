@@ -80,9 +80,9 @@ class Evolucion:
                     # Si no es mejor se queda el original
                     pass
 
-            #
             #Ordenar PoblacionList
-            #
+            self.PoblacionList = sorted(self.PoblacionList, key=lambda obj: obj.Fitness)
+
             return self.PoblacionList[0]
 
     def CalculoFitness(self, individuo):
@@ -96,10 +96,10 @@ class Evolucion:
                 s["Delay"].append(individuo.Elemento["Delay"][(i * self.Entradas) + j])
             synapses.append(s)
 
-        s={"Weight": [], "Delay": []}
+        s = {"Weight": [], "Delay": []}
         for i in range(len(individuo.Elemento["Weight"])):
-            s["Weight"].append(individuo["Weight":i])
-            s["Delay"].append(individuo["Delay":i])
+            s["Weight"].append(individuo.Elemento["Weight"][i])
+            s["Delay"].append(individuo.Elemento["Delay"][i])
 
         synapses.append(s)
 
@@ -115,9 +115,8 @@ class Evolucion:
         return fitness
 
     def getSNN(self):
-        #
-        #Ordenar PoblacionList
-        #
+        # Ordenar PoblacionList
+        self.PoblacionList = sorted(self.PoblacionList, key=lambda obj: obj.Fitness)
 
         x = self.PoblacionList[0].Elemento
         synapses = []
