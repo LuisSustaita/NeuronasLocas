@@ -28,8 +28,9 @@ class Pulsante:
         SalidasOcultas=[]
         for t in range(self.TiempoInicio,self.TiempoFin,1):
             for i in range(len(self.NeuronasOcultas)):
+                SalidasOcultas.append(0)
                 self.NeuronasOcultas[i].Simular(t,FiringTimes)
-                SalidasOcultas.append(self.NeuronasOcultas[i].FiringTime)
+                SalidasOcultas[i] = self.NeuronasOcultas[i].FiringTime
             self.NeuronaSalida.Simular(t,SalidasOcultas)
         
         return self.NeuronaSalida.FiringTime

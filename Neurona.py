@@ -23,9 +23,13 @@ class neurona:
     def Simular(self, ActualTime, FiringTimes):
         x = 0
         if self.FiringTime is None:
+            print("len firing times: {}".format(len(FiringTimes)))
+            print("len weigh and delay posicion delay: {}".format(len(self.WeightAndDelay["Delay"])))
             for i in range(len(self.WeightAndDelay["Delay"])):
+                print("firing time i: {}".format(FiringTimes[i]))
+                print("delay i: {}".format(self.WeightAndDelay["Delay"][i]))
                 x += self.WeightAndDelay["Delay"][i] * self.Ye(
-                    ActualTime, FiringTimes[i], self.WeightAndDelay["Delay"][i])
+                    ActualTime, FiringTimes[i], self.WeightAndDelay["Weight"][i])
             if x >= self.Threshold:
                 self.FiringTime = ActualTime
 
