@@ -20,7 +20,7 @@ c2 = [patron21, patron22]
 Patrones = {20: c1, 10: c2}
 
 CapaEntrada = 2
-CapaOculta = 5
+CapaOculta = 10
 CapaSalida = 1
 
 WeightInf = -100
@@ -28,7 +28,7 @@ WeightSup = 100
 DelayInf = 0.1
 DelaySup = 16
 
-Dimension = 2*(CapaEntrada*CapaOculta+CapaSalida)
+Dimension = 2*(CapaOculta*CapaEntrada+CapaSalida*CapaOculta)
 Poblacion = 30
 Iteraciones = 500
 TiempoInicio = 0

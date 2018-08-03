@@ -92,12 +92,12 @@ class Evolucion:
         for i in range(self.Ocultas):
             s = {"Weight": [], "Delay": []}
             for j in range(self.Entradas):
-                s["Weight"].append(individuo.Elemento["Weight"][(i * self.Entradas) + j])
-                s["Delay"].append(individuo.Elemento["Delay"][(i * self.Entradas) + j])
+                s["Weight"].append(individuo.Elemento["Weight"][i+j])
+                s["Delay"].append(individuo.Elemento["Delay"][i+j])
             synapses.append(s)
 
         s = {"Weight": [], "Delay": []}
-        for i in range(len(individuo.Elemento["Weight"])):
+        for i in range(len(individuo.Elemento["Weight"])-(self.Ocultas * 2),len(individuo.Elemento["Weight"])):
             s["Weight"].append(individuo.Elemento["Weight"][i])
             s["Delay"].append(individuo.Elemento["Delay"][i])
 

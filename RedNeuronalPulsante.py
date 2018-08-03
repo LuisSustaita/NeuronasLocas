@@ -19,6 +19,7 @@ class Pulsante:
                 "Weight",WeightAndDelay[i]["Weight"])
             self.NeuronasOcultas[i].WeightAndDelay.__setitem__(
                 "Delay", WeightAndDelay[i]["Delay"])
+
         self.NeuronaSalida.WeightAndDelay.__setitem__(
             "Weight", WeightAndDelay[len(self.NeuronasOcultas)]["Weight"])
         self.NeuronaSalida.WeightAndDelay.__setitem__(
@@ -28,9 +29,8 @@ class Pulsante:
         SalidasOcultas=[]
         for t in range(self.TiempoInicio,self.TiempoFin,1):
             for i in range(len(self.NeuronasOcultas)):
-                SalidasOcultas.append(0)
                 self.NeuronasOcultas[i].Simular(t,FiringTimes)
-                SalidasOcultas[i] = self.NeuronasOcultas[i].FiringTime
+                SalidasOcultas.append(self.NeuronasOcultas[i].FiringTime)
             self.NeuronaSalida.Simular(t,SalidasOcultas)
         
         return self.NeuronaSalida.FiringTime
