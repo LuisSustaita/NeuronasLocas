@@ -3,10 +3,11 @@ import random
 
 class individuo:
     def __init__(self, **kwargs):
-        self.WeightInf=kwargs["WeightInf"]
-        self.WeightSup=kwargs["WeightSup"]
-        self.DelayInf=kwargs["DelayInf"]
-        self.DelaySup=kwargs["DelaySup"]
+        self.WeightInf = kwargs["WeightInf"]
+        self.WeightSup = kwargs["WeightSup"]
+        self.DelayInf = kwargs["DelayInf"]
+        self.DelaySup = kwargs["DelaySup"]
+
         if "Fitness" in kwargs:
             self.Fitness = kwargs["Fitness"]
         else:
@@ -15,15 +16,10 @@ class individuo:
         if "Elemento" in kwargs:
             self.Elemento = kwargs["Elemento"]
         else:
-            self.Elemento = {"Weight": [2.0
-                                        for x in range(int(kwargs["Dimension"] / 2))],
-                             "Delay": [2.0
-                                       for x in range(int(kwargs["Dimension"] / 2))]}
-
-            #self.Elemento={"Weight": [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"])
-            #                         for x in range(int(kwargs["Dimension"]/2))],
-            #              "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
-            #                       for x in range(int(kwargs["Dimension"]/2))]}
+            self.Elemento={"Weight": [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"])
+                                     for x in range(int(kwargs["Dimension"]/2))],
+                          "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
+                                   for x in range(int(kwargs["Dimension"]/2))]}
 
     def __add__(self, otro):
         val={"Weight":[],"Delay":[]}
@@ -68,7 +64,9 @@ class individuo:
                     r = r - self.DelaySup + self.DelayInf
                 val["Delay"].append(r)
 
-        return individuo(Elemento=val)
+        return individuo(Elemento=val,
+                         WeightInf=self.WeightInf, WeightSup=self.WeightSup,
+                         DelayInf=self.DelayInf, DelaySup=self.DelaySup)
 
     def __sub__(self, otro):
         val = {"Weight": [], "Delay": []}
@@ -113,7 +111,9 @@ class individuo:
                     r = r - self.DelaySup + self.DelayInf
                 val["Delay"].append(r)
 
-        return individuo(Elemento=val)
+        return individuo(Elemento=val,
+                         WeightInf=self.WeightInf,WeightSup=self.WeightSup,
+                         DelayInf=self.DelayInf,DelaySup=self.DelaySup)
 
     def __mul__(self, otro):
         val = {"Weight": [], "Delay": []}
@@ -158,7 +158,9 @@ class individuo:
                     r = r - self.DelaySup + self.DelayInf
                 val["Delay"].append(r)
 
-        return individuo(Elemento=val)
+        return individuo(Elemento=val,
+                         WeightInf=self.WeightInf, WeightSup=self.WeightSup,
+                         DelayInf=self.DelayInf, DelaySup=self.DelaySup)
 
     def __lt__(self, otro):
         return self.Fitness < otro.Fitness

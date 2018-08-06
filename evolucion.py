@@ -37,6 +37,7 @@ class Evolucion:
     def evolucionar(self):
         # Llamadas a funcion
         for i in range(self.Llamadas):
+            print("inicio")
             # Paso 1: Mutacion
             # Lista tabu para evitar tener aleatorios iguales
             indexes=[]
@@ -56,22 +57,28 @@ class Evolucion:
                 R3 = self.PoblacionList[indexes[2]]
 
                 # Se aplican operaciones al individuo y se agrega a la poblacion
-                mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento)
+                mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento,
+                                   WeightSup=self.WeightSup, WeightInf=self.WeightSup,
+                                   DelaySup=self.DelaySup, DelayInf=self.DelayInf)
+                print("mutacion {}".format(str(j)))
 
                 #Paso 2: Cruza
-                Cruzado = []
-                for k in range(2):
+                Cruzado = {"Weight": [], "Delay": []}
+                for k in mutado.Elemento:
                     # Para cada componente del arreglo
                     if random.random() <= self.Cr:
                         # Si el aleatorio es menor que Cr tomamos el componente del arreglo de la nueva poblacion
-                        Cruzado.append(mutado.Elemento[k])
+                        Cruzado.__setitem__(k, mutado.Elemento[k])
                     else:
                         # Si no es menor tomamos el componente del arreglo de la poblacion original
-                        Cruzado.append(self.PoblacionList[j].Elemento[k])
+                        Cruzado.__setitem__(k, self.PoblacionList[j].Elemento[k])
 
-                Cruzado = individuo(Elemento=Cruzado)
+                Cruzado = individuo(Elemento=Cruzado,
+                                    WeightSup=self.WeightSup, WeightInf=self.WeightSup,
+                                    DelaySup=self.DelaySup, DelayInf=self.DelayInf)
+
                 Cruzado.Fitness = self.CalculoFitness(Cruzado)
-
+                print("cruza")
                 # Paso 3: Reemplazo
                 if Cruzado.__lt__(self.PoblacionList[j]):
                     # Si el cruzado es menor (mejor) que el original se reemplaza
@@ -80,10 +87,13 @@ class Evolucion:
                     # Si no es mejor se queda el original
                     pass
 
-            #Ordenar PoblacionList
-            self.PoblacionList = sorted(self.PoblacionList, key=lambda obj: obj.Fitness)
+                print("reemplazo")
+            print(self.PoblacionList[0])
 
-            return self.PoblacionList[0]
+        #Ordenar PoblacionList
+        self.PoblacionList = sorted(self.PoblacionList, key=lambda obj: obj.Fitness)
+
+        return self.PoblacionList[0]
 
     def CalculoFitness(self, individuo):
         fitness = 0
@@ -97,7 +107,10 @@ class Evolucion:
             synapses.append(s)
 
         s = {"Weight": [], "Delay": []}
-        for i in range(len(individuo.Elemento["Weight"])-(self.Ocultas * 2),len(individuo.Elemento["Weight"])):
+        ini=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])-(self.Ocultas * 2)
+        fin=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])
+
+        for i in range(ini/2, fin/2):
             s["Weight"].append(individuo.Elemento["Weight"][i])
             s["Delay"].append(individuo.Elemento["Delay"][i])
 
