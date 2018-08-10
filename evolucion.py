@@ -60,7 +60,7 @@ class Evolucion:
                     print("")
                 # Se aplican operaciones al individuo y se agrega a la poblacion
                 mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento,
-                                   WeightSup=self.WeightSup, WeightInf=self.WeightSup,
+                                   WeightSup=self.WeightSup, WeightInf=self.WeightInf,
                                    DelaySup=self.DelaySup, DelayInf=self.DelayInf)
                 print("mutacion {}".format(str(j)))
 
