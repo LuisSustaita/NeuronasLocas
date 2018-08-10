@@ -56,6 +56,8 @@ class Evolucion:
                 R2 = self.PoblacionList[indexes[1]]
                 R3 = self.PoblacionList[indexes[2]]
 
+                if self.WeightInf is 100:
+                    print("")
                 # Se aplican operaciones al individuo y se agrega a la poblacion
                 mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento,
                                    WeightSup=self.WeightSup, WeightInf=self.WeightSup,
@@ -110,7 +112,7 @@ class Evolucion:
         ini=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])-(self.Ocultas * 2)
         fin=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])
 
-        for i in range(ini/2, fin/2):
+        for i in range(int(ini/2), int(fin/2)):
             s["Weight"].append(individuo.Elemento["Weight"][i])
             s["Delay"].append(individuo.Elemento["Delay"][i])
 

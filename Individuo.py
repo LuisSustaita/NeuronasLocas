@@ -21,9 +21,12 @@ class individuo:
                           "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
                                    for x in range(int(kwargs["Dimension"]/2))]}
 
-    def RegresoToroidal(LimiteInferior, LimiteSuperior, Valor):
+    def RegresoToroidal(self, LimiteInferior, LimiteSuperior, Valor):
         import math
         if Valor < LimiteInferior:
+            li=(LimiteSuperior - LimiteInferior)
+            if li is 0:
+                print("")
             Valor = LimiteSuperior - (math.fabs(Valor - LimiteInferior) % (LimiteSuperior - LimiteInferior))
         else:
             Valor = LimiteInferior + (math.fabs(Valor + LimiteInferior) % (LimiteSuperior - LimiteInferior))
@@ -81,7 +84,9 @@ class individuo:
                 r = self.Elemento["Weight"][i] - otro.Elemento["Weight"][i]
 
                 # Regreso toroidal para Weight
-                r = self.RegresoToroidal(self.WeightInf, self.WeightSup, r)
+                if self.WeightInf is 100:
+                    print("")
+                r = self.RegresoToroidal(self.WeightInf,self.WeightSup,r)
 
                 val["Weight"].append(r)
 
