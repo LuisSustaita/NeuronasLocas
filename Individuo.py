@@ -115,7 +115,6 @@ class individuo:
                 r = self.RegresoToroidal(self.DelayInf, self.DelaySup, r)
 
                 val["Delay"].append(r)
-
         return individuo(Elemento=val,
                          WeightInf=self.WeightInf,WeightSup=self.WeightSup,
                          DelayInf=self.DelayInf,DelaySup=self.DelaySup)

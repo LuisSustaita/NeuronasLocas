@@ -37,7 +37,6 @@ class Evolucion:
     def evolucionar(self):
         # Llamadas a funcion
         for i in range(self.Llamadas):
-            print("inicio")
             # Paso 1: Mutacion
             # Lista tabu para evitar tener aleatorios iguales
             indexes=[]
@@ -56,13 +55,10 @@ class Evolucion:
                 R2 = self.PoblacionList[indexes[1]]
                 R3 = self.PoblacionList[indexes[2]]
 
-                if self.WeightInf is 100:
-                    print("")
                 # Se aplican operaciones al individuo y se agrega a la poblacion
                 mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento,
-                                   WeightSup=self.WeightSup, WeightInf=self.WeightSup,
+                                   WeightSup=self.WeightSup, WeightInf=self.WeightInf,
                                    DelaySup=self.DelaySup, DelayInf=self.DelayInf)
-                print("mutacion {}".format(str(j)))
 
                 #Paso 2: Cruza
                 Cruzado = {"Weight": [], "Delay": []}
@@ -76,11 +72,10 @@ class Evolucion:
                         Cruzado.__setitem__(k, self.PoblacionList[j].Elemento[k])
 
                 Cruzado = individuo(Elemento=Cruzado,
-                                    WeightSup=self.WeightSup, WeightInf=self.WeightSup,
+                                    WeightSup=self.WeightSup, WeightInf=self.WeightInf,
                                     DelaySup=self.DelaySup, DelayInf=self.DelayInf)
 
                 Cruzado.Fitness = self.CalculoFitness(Cruzado)
-                print("cruza")
                 # Paso 3: Reemplazo
                 if Cruzado.__lt__(self.PoblacionList[j]):
                     # Si el cruzado es menor (mejor) que el original se reemplaza
@@ -89,7 +84,6 @@ class Evolucion:
                     # Si no es mejor se queda el original
                     pass
 
-                print("reemplazo")
             print(self.PoblacionList[0])
 
         #Ordenar PoblacionList
@@ -109,10 +103,8 @@ class Evolucion:
             synapses.append(s)
 
         s = {"Weight": [], "Delay": []}
-        ini=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])-(self.Ocultas * 2)
-        fin=len(individuo.Elemento["Weight"])+len(individuo.Elemento["Delay"])
 
-        for i in range(int(ini/2), int(fin/2)):
+        for i in range(len(individuo.Elemento["Delay"])-self.Ocultas, len(individuo.Elemento["Delay"])):
             s["Weight"].append(individuo.Elemento["Weight"][i])
             s["Delay"].append(individuo.Elemento["Delay"][i])
 

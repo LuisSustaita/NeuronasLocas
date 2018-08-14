@@ -5,6 +5,7 @@ class neurona:
     def __init__(self, Threshold, Tau):
         #Spike
         self.FiringTime = None
+        #Tau
         self.Tau = Tau
         #Umbral-Limite
         self.Threshold = Threshold

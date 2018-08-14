@@ -9,7 +9,6 @@ from evolucion import Evolucion
 # Red neuronal
 from RedNeuronalPulsante import Pulsante
 
-
 patron11 = [0, 0]
 patron12 = [6, 6]
 c1 = [patron11, patron12]
