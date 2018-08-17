@@ -84,7 +84,7 @@ class Evolucion:
                     # Si no es mejor se queda el original
                     pass
 
-            print(self.PoblacionList[0])
+            #print(self.PoblacionList[0])
 
         #Ordenar PoblacionList
         self.PoblacionList = sorted(self.PoblacionList, key=lambda obj: obj.Fitness)
@@ -103,8 +103,10 @@ class Evolucion:
             synapses.append(s)
 
         s = {"Weight": [], "Delay": []}
+        inicio = len(individuo.Elemento["Delay"])+len(individuo.Elemento["Weight"])-(self.Ocultas*2)
+        fin = len(individuo.Elemento["Delay"])+len(individuo.Elemento["Weight"])
 
-        for i in range(len(individuo.Elemento["Delay"])-self.Ocultas, len(individuo.Elemento["Delay"])):
+        for i in range(int(inicio/2), int(fin/2)):
             s["Weight"].append(individuo.Elemento["Weight"][i])
             s["Delay"].append(individuo.Elemento["Delay"][i])
 
@@ -132,12 +134,17 @@ class Evolucion:
             s = {"Weight": [], "Delay": []}
 
             for j in range(self.Entradas):
-                s["Weight"].append(x["Weight"][(i * self.Entradas) + j])
+                pos=(i * self.Entradas) + j
+                s["Weight"].append(x["Weight"][pos])
                 s["Delay"].append(x["Delay"][(i * self.Entradas) + j])
             synapses.append(s)
 
         s = {"Weight": [], "Delay": []}
-        for i in range(len(x["Weight"])):
+
+        inicio = len(x["Delay"]) + len(x["Weight"]) - (self.Ocultas * 2)
+        fin = len(x["Delay"]) + len(x["Weight"])
+
+        for i in range(int(inicio / 2), int(fin / 2)):
             s["Weight"].append(x["Weight"][i])
             s["Delay"].append(x["Delay"][i])
 
