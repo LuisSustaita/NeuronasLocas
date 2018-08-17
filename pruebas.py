@@ -29,7 +29,7 @@ DelaySup = 16
 
 Dimension = 2*(CapaOculta*CapaEntrada+CapaSalida*CapaOculta)
 Poblacion = 30
-Iteraciones = 500
+Iteraciones = 200
 TiempoInicio = 0
 TiempoFin = 24
 F = 0.9
@@ -48,7 +48,7 @@ de = Evolucion(Poblacion=Poblacion, Dimension=Dimension,
                TiempoInicio=TiempoInicio, TiempoFin=TiempoFin)
 
 evolucion = de.evolucionar()
-
+print("*"*20)
 print("Solucion: {}".format(evolucion.Elemento))
 print("Fitness: {}".format(evolucion.Fitness))
 
@@ -58,9 +58,8 @@ for key in Patrones:
     spikes = Patrones[key]
     for p in spikes:
         FiringTime = snn.Simular(p)
-        print("Patron: {} Clase: {} Prediccion (Firing Time): {}".format(p, key, FiringTime))
+        print("Patron: {} Clase: {} Prediccion: {}".format(p, key, FiringTime))
     snn.ResetPulsante()
-
 
 
 

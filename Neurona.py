@@ -1,4 +1,4 @@
-import numpy as np
+import math as np
 
 
 class neurona:
@@ -14,9 +14,10 @@ class neurona:
 
     #Estado de la neurona
     def Ye(self, ActualTime, FiringTime, Delay):
-        FiringTime =-1 if FiringTime is None else ActualTime-FiringTime-Delay
-        if FiringTime > 0:
-            return (FiringTime/self.Tau)*np.exp(1-FiringTime/self.Tau)
+        tinput=-1 if FiringTime is None else ActualTime-FiringTime-Delay
+        if tinput > 0:
+            r=(tinput / self.Tau) * np.exp(1 - tinput / self.Tau)
+            return r
         return 0
 
     #Potencial de la membrana
@@ -24,7 +25,8 @@ class neurona:
         x = 0
         if self.FiringTime is None:
             for i in range(len(self.WeightAndDelay["Delay"])):
-                x += self.WeightAndDelay["Delay"][i] * self.Ye(ActualTime, FiringTimes[i], self.WeightAndDelay["Weight"][i])
+                y=self.Ye(ActualTime, FiringTimes[i], self.WeightAndDelay["Weight"][i])
+                x += self.WeightAndDelay["Delay"][i] * y
             if x >= self.Threshold:
                 self.FiringTime = ActualTime
 
