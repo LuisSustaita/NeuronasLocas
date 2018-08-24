@@ -56,9 +56,11 @@ class Evolucion:
                 R3 = self.PoblacionList[indexes[2]]
 
                 # Se aplican operaciones al individuo y se agrega a la poblacion
-                mutado = individuo(Elemento=(R1.__add__(R2.__sub__(R3).__mul__(self.F))).Elemento,
+                mutado = individuo(Elemento=(R2.__sub__(R3)).Elemento,
                                    WeightSup=self.WeightSup, WeightInf=self.WeightInf,
                                    DelaySup=self.DelaySup, DelayInf=self.DelayInf)
+                mutado = mutado.__mul__(self.F)
+                mutado = R1.__add__(mutado)
 
                 #Paso 2: Cruza
                 Cruzado = {"Weight": [], "Delay": []}
@@ -66,10 +68,10 @@ class Evolucion:
                     # Para cada componente del arreglo
                     if random.random() <= self.Cr:
                         # Si el aleatorio es menor que Cr tomamos el componente del arreglo de la nueva poblacion
-                        Cruzado.__setitem__(k, mutado.Elemento[k])
+                        Cruzado[k] = mutado.Elemento[k]
                     else:
                         # Si no es menor tomamos el componente del arreglo de la poblacion original
-                        Cruzado.__setitem__(k, self.PoblacionList[j].Elemento[k])
+                        Cruzado[k] = self.PoblacionList[j].Elemento[k]
 
                 Cruzado = individuo(Elemento=Cruzado,
                                     WeightSup=self.WeightSup, WeightInf=self.WeightInf,
@@ -118,7 +120,7 @@ class Evolucion:
             spikes = self.Patrones[key]
             for p in spikes:
                 FiringTime = self.RedPulsante.Simular(p)
-                fitness += math.pow(self.TiempoFin, 2) if FiringTime is None else math.pow((key - FiringTime), 2)
+                fitness += self.TiempoFin ** 2 if FiringTime is None else (key - FiringTime) ** 2
                 self.RedPulsante.ResetPulsante()
 
         return fitness

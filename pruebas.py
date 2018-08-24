@@ -29,7 +29,7 @@ DelaySup = 16
 
 Dimension = 2*(CapaOculta*CapaEntrada+CapaSalida*CapaOculta)
 Poblacion = 30
-Iteraciones = 200
+Iteraciones = 800
 TiempoInicio = 0
 TiempoFin = 24
 F = 0.9

@@ -15,15 +15,11 @@ class Pulsante:
 
     def setWeightAndDelay(self, WeightAndDelay):
         for i in range(len(self.NeuronasOcultas)):
-            self.NeuronasOcultas[i].WeightAndDelay.__setitem__(
-                "Weight", WeightAndDelay[i]["Weight"])
-            self.NeuronasOcultas[i].WeightAndDelay.__setitem__(
-                "Delay", WeightAndDelay[i]["Delay"])
+            self.NeuronasOcultas[i].WeightAndDelay["Weight"] = WeightAndDelay[i]["Weight"]
+            self.NeuronasOcultas[i].WeightAndDelay["Delay"] = WeightAndDelay[i]["Delay"]
 
-        self.NeuronaSalida.WeightAndDelay.__setitem__(
-            "Weight", WeightAndDelay[len(self.NeuronasOcultas)]["Weight"])
-        self.NeuronaSalida.WeightAndDelay.__setitem__(
-            "Delay", WeightAndDelay[len(self.NeuronasOcultas)]["Delay"])
+        self.NeuronaSalida.WeightAndDelay["Weight"] = WeightAndDelay[len(self.NeuronasOcultas)]["Weight"]
+        self.NeuronaSalida.WeightAndDelay["Delay"] = WeightAndDelay[len(self.NeuronasOcultas)]["Delay"]
 
     def Simular(self, FiringTimes):
         SalidasOcultas = []

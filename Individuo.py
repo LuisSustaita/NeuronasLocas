@@ -8,18 +8,20 @@ class individuo:
         self.DelayInf = kwargs["DelayInf"]
         self.DelaySup = kwargs["DelaySup"]
 
-        if "Fitness" in kwargs:
-            self.Fitness = kwargs["Fitness"]
-        else:
-            self.Fitness = 1111
+        self.Fitness = 111111
 
         if "Elemento" in kwargs:
             self.Elemento = kwargs["Elemento"]
         else:
-            self.Elemento={"Weight": [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"])
-                                     for x in range(int(kwargs["Dimension"]/2))],
-                          "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
-                                   for x in range(int(kwargs["Dimension"]/2))]}
+            #self.Elemento={"Weight": [random.uniform(kwargs["WeightInf"], kwargs["WeightSup"])
+            #                         for x in range(int(kwargs["Dimension"]/2))],
+            #              "Delay": [random.uniform(kwargs["DelayInf"], kwargs["DelaySup"])
+            #                       for x in range(int(kwargs["Dimension"]/2))]}
+
+            self.Elemento = {"Weight": [2
+                                        for x in range(int(kwargs["Dimension"] / 2))],
+                             "Delay": [2
+                                       for x in range(int(kwargs["Dimension"] / 2))]}
 
     def RegresoToroidal(self, LimiteInferior, LimiteSuperior, Valor):
         import math
@@ -84,8 +86,6 @@ class individuo:
                 r = self.Elemento["Weight"][i] - otro.Elemento["Weight"][i]
 
                 # Regreso toroidal para Weight
-                if self.WeightInf is 100:
-                    print("")
                 r = self.RegresoToroidal(self.WeightInf,self.WeightSup,r)
 
                 val["Weight"].append(r)

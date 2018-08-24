@@ -1,5 +1,4 @@
-import math as np
-
+import math
 
 class neurona:
     def __init__(self, Threshold, Tau):
@@ -16,7 +15,7 @@ class neurona:
     def Ye(self, ActualTime, FiringTime, Delay):
         tinput=-1 if FiringTime is None else ActualTime-FiringTime-Delay
         if tinput > 0:
-            r=(tinput / self.Tau) * np.exp(1 - tinput / self.Tau)
+            r=(tinput / self.Tau) * math.exp(1 - tinput / self.Tau)
             return r
         return 0
 
@@ -24,7 +23,7 @@ class neurona:
     def Simular(self, ActualTime, FiringTimes):
         x = 0
         if self.FiringTime is None:
-            for i in range(len(self.WeightAndDelay["Delay"])):
+            for i in range(len(self.WeightAndDelay)):
                 y=self.Ye(ActualTime, FiringTimes[i], self.WeightAndDelay["Weight"][i])
                 x += self.WeightAndDelay["Delay"][i] * y
             if x >= self.Threshold:
